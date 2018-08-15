@@ -58,7 +58,7 @@ function menuOptions() {
 }
 
 function forSale() {
-    console.log("Selecting all products for sale...\n");
+    console.log("\nHere is all of your current products for sale...\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
         // Log all results of the SELECT statement
@@ -74,7 +74,7 @@ function lowInventory() {
         for (i = 0; i < res.length; i++) {
 
             if (res[i].stock_quantity < 5) {
-                console.log('Product: ' + res[i].product_name + ' Quantity: ' + res[i].stock_quantity + '\n---------------------------------------');
+                console.log('Product: ' + res[i].product_name + ' | Quantity: ' + res[i].stock_quantity + '\n---------------------------------------');
             }
         }
         //   console.table(res);
@@ -83,6 +83,13 @@ function lowInventory() {
 }
 
 function addInventory() {
+
+    connection.query("SELECT * FROM products", function (err, res) {
+        if (err) throw err;
+
+        console.table(res);
+
+    
 
 
     inquirer.prompt([
@@ -122,14 +129,17 @@ function addInventory() {
                     if (err) throw err;
 
                     console.log("Inventory updated successfully!\n" +
-                        "\n The new inventory total for this item is: " + (currentQuantity + quantity) + "\n");
+                        "\nThe new inventory total for this item is: " + (currentQuantity + quantity) + "\n");
                     forSale();
                 });
         });
     });
+});
 }
 
 function addProduct() {
+
+
 
     inquirer.prompt([
         {

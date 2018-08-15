@@ -79,7 +79,7 @@ function buy() {
                     function(error) {
                       if (error) throw err;
                       console.log("Purchase placed successfully!\n"+
-                      "\n You're total is: " + quantity * res[0].price + " Galleons");
+                      "\nYou're total is: " + quantity * res[0].price + " Galleons\n");
                       connection.end();
                     }
                   );

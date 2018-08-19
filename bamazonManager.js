@@ -1,28 +1,27 @@
+// Requiring packages needed for app
 var mysql = require("mysql");
 var inquirer = require('inquirer');
 const cTable = require('console.table');
 
-
+// Setting up MySQL 
 var connection = mysql.createConnection({
     host: "localhost",
 
-    // Your port; if not 3306
     port: 3306,
 
-    // Your username
     user: "root",
 
-    // Your password
     password: "password",
+
     database: "bamazon"
 });
-
+// Connectig to MySQL Database
 connection.connect(function (err) {
     if (err) throw err;
-    // console.log("connected as id " + connection.threadId);
+     // After successful connection run menuOptions function and begin app
     menuOptions();
 });
-
+// Function shows all the options available to the manager
 function menuOptions() {
     inquirer
         .prompt({
@@ -56,17 +55,16 @@ function menuOptions() {
             }
         });
 }
-
+// Function shows all the products for sale currently
 function forSale() {
     console.log("\nHere is all of your current products for sale...\n");
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
-        // Log all results of the SELECT statement
         console.table(res);
         connection.end();
     });
 }
-
+// Function shows all the products with inventory levels below 5
 function lowInventory() {
     console.log('\nProducts with current inventory levels less than 5 units...\n');
     connection.query("SELECT * FROM products", function (err, res) {
@@ -77,20 +75,16 @@ function lowInventory() {
                 console.log('Product: ' + res[i].product_name + ' | Quantity: ' + res[i].stock_quantity + '\n---------------------------------------');
             }
         }
-        //   console.table(res);
         connection.end();
     });
 }
-
+// Function that allows manager to add to the inventory level of a specific product
 function addInventory() {
 
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
 
         console.table(res);
-
-    
-
 
     inquirer.prompt([
         {
@@ -136,10 +130,8 @@ function addInventory() {
     });
 });
 }
-
+// Function that allows manager to add a product
 function addProduct() {
-
-
 
     inquirer.prompt([
         {

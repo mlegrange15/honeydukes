@@ -1,41 +1,38 @@
+// Requiring packages needed for app
 var mysql = require("mysql");
 var inquirer = require('inquirer');
 const cTable = require('console.table');
 
-
+// Setting up MySQL 
 var connection = mysql.createConnection({
     host: "localhost",
 
-    // Your port; if not 3306
     port: 3306,
 
-    // Your username
     user: "root",
 
-    // Your password
     password: "password",
+
     database: "bamazon"
 });
-
+// Connectig to MySQL Database
 connection.connect(function (err) {
     if (err) throw err;
-    // console.log("connected as id " + connection.threadId);
+    // After successful connection run welcome function and begin app
     welcome();
 });
-
+// Function shows all the options available to the customer for purchase then runs buy function
 function welcome() {
 
     connection.query("SELECT * FROM products", function (err, res) {
         if (err) throw err;
-        // Log all results of the SELECT statement
         console.log("\nWelcome to HoneyDukes!\n" + 
         "\nTake a look at our items below and let us know what you'd like!\n");
-        
         console.table(res);
         buy();
     });
 }
-
+// Function allows customer to pick a product and buy a product with inventory available
 function buy() {
 
     inquirer.prompt([
